@@ -16,9 +16,9 @@ public class QuestionService {
     }
 
     // may need to update this to get the presigned url for the download of the media
-    public Question createQuestion(CreateQuestionRequest createQuestionRequest) {
-        QuestionEntity questionEntity = new QuestionEntity(createQuestionRequest.getTestId(), createQuestionRequest.getQuestion(), createQuestionRequest.getMedia());
+    public Question createQuestion(CreateQuestionRequest createQuestionRequest, Integer testId) {
+        QuestionEntity questionEntity = new QuestionEntity(testId, createQuestionRequest.getQuestion(), createQuestionRequest.getMedia());
         QuestionEntity createdQuestion = this.questionRepository.save(questionEntity);
-        return new Question(createdQuestion.getQuestionId(), createQuestionRequest.getTestId(), createQuestionRequest.getQuestion(), createQuestionRequest.getMedia());
+        return new Question(createdQuestion.getQuestionId(), createdQuestion.getTestId(), createQuestionRequest.getQuestion(), createQuestionRequest.getMedia());
     }
 }

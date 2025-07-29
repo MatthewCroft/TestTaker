@@ -6,13 +6,10 @@ import org.example.testtaker.model.Question;
 import org.example.testtaker.service.QuestionService;
 import org.example.testtaker.service.TestService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/test/{id}/question")
+@RequestMapping("/api/test/{testId}/question")
 public class QuestionController {
     private TestService testService;
     private QuestionService questionService;
@@ -23,18 +20,18 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Question> createQuestion(@RequestBody CreateQuestionRequest createQuestionRequest) throws Exception {
-        if (createQuestionRequest.getTestId() == null || createQuestionRequest.getQuestion().isEmpty()) {
+    public ResponseEntity<Question> createQuestion(@PathVariable Integer testId, @RequestBody CreateQuestionRequest createQuestionRequest) throws Exception {
+        if (createQuestionRequest.getQuestion().isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .build();
         }
 
-        if (this.testService.getTest(createQuestionRequest.getTestId()) == null) {
-            throw new TestNotFoundException(String.format("test with id %d not found", createQuestionRequest.getTestId()));
+        if (this.testService.getTest(testId) == null) {
+            throw new TestNotFoundException(String.format("test with id %d not found", testId));
         }
 
-        Question question = this.questionService.createQuestion(createQuestionRequest);
+        Question question = this.questionService.createQuestion(createQuestionRequest, testId);
         return ResponseEntity.ok(question);
     }
 }

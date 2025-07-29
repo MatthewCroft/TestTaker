@@ -17,8 +17,8 @@ public class TestService {
         this.userService = userService;
     }
 
-    public Test createTest(CreateTestRequest createTestRequest) {
-        TestEntity testEntity = new TestEntity(createTestRequest.getName(), createTestRequest.getCreatedBy());
+    public Test createTest(CreateTestRequest createTestRequest, Integer userId) {
+        TestEntity testEntity = new TestEntity(createTestRequest.getName(), userId);
         TestEntity createdTest = this.testRepository.save(testEntity);
         User user = this.userService.getUser(createdTest.getCreatedBy());
         return new Test(createdTest.getTestId(), createdTest.getName(), user.getName());

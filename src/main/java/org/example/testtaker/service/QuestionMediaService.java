@@ -15,12 +15,15 @@ import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 @Service
 public class QuestionMediaService {
 
-    public QuestionMedia createPresignedUrl(QuestionMediaUploadRequest questionMediaUploadRequest) {
+    public QuestionMedia createPresignedUrl(QuestionMediaUploadRequest questionMediaUploadRequest, Integer testId) {
         /* Create a presigned URL to use in a subsequent PUT request */
+            String BUCKET = "s3-test-maker";
+            String KEY = String.format("test/%d/%s", testId, questionMediaUploadRequest.getKey());
+
             try (S3Presigner presigner = S3Presigner.create()) {
                 PutObjectRequest objectRequest = PutObjectRequest.builder()
-                        .bucket("take-test-bucket")
-                        .key(questionMediaUploadRequest.getKey())
+                        .bucket(BUCKET)
+                        .key(KEY)
                         .build();
 
                 PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()

@@ -7,13 +7,10 @@ import org.example.testtaker.service.TestService;
 import org.example.testtaker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/user/{userId}/test")
 public class TestController {
     private UserService userService;
     private TestService testService;
@@ -25,20 +22,19 @@ public class TestController {
     }
 
     @PostMapping
-    public ResponseEntity<Test> createTest(@RequestBody CreateTestRequest createTestRequest) throws UserNotFoundException {
-        if (createTestRequest.getCreatedBy() == null ||
-                createTestRequest.getName() == null ||
+    public ResponseEntity<Test> createTest(@PathVariable Integer userId, @RequestBody CreateTestRequest createTestRequest) throws UserNotFoundException {
+        if (createTestRequest.getName() == null ||
                 createTestRequest.getName().isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .build();
         }
 
-        if (this.userService.getUser(createTestRequest.getCreatedBy()) == null) {
-            throw new UserNotFoundException(String.format("User with id %d was not found", createTestRequest.getCreatedBy()));
+        if (this.userService.getUser(userId) == null) {
+            throw new UserNotFoundException(String.format("User with id %d was not found", userId));
         }
 
-        Test test = this.testService.createTest(createTestRequest);
+        Test test = this.testService.createTest(createTestRequest, userId);
         return ResponseEntity.ok(test);
     }
 }

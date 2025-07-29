@@ -27,7 +27,7 @@ public class TestControllerTest {
 
     @Test
     public void testReturnBadRequestWhenTestNameIsEmpty() throws Exception {
-        ResponseEntity response = testController.createTest(new CreateTestRequest("", 2));
+        ResponseEntity response = testController.createTest(2, new CreateTestRequest(""));
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
@@ -35,7 +35,7 @@ public class TestControllerTest {
     public void testReturnNotFoundWhenUserIdDoesNotExist() throws Exception {
         when(userService.getUser(6)).thenReturn(null);
         try {
-            testController.createTest(new CreateTestRequest("matt", 1));
+            testController.createTest(1, new CreateTestRequest("matt"));
         } catch (UserNotFoundException e) {
             assertEquals("User with id 1 was not found", e.getMessage());
         }
