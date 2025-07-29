@@ -3,6 +3,7 @@ package org.example.testtaker.controller;
 import org.example.testtaker.dto.CreateQuestionRequest;
 import org.example.testtaker.exceptions.TestNotFoundException;
 import org.example.testtaker.model.Question;
+import org.example.testtaker.service.QuestionService;
 import org.example.testtaker.service.TestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,5 +33,8 @@ public class QuestionController {
         if (this.testService.getTest(createQuestionRequest.getTestId()) == null) {
             throw new TestNotFoundException(String.format("test with id %d not found", createQuestionRequest.getTestId()));
         }
+
+        Question question = this.questionService.createQuestion(createQuestionRequest);
+        return ResponseEntity.ok(question);
     }
 }
