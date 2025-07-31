@@ -22,7 +22,7 @@ public class TestController {
     }
 
     @PostMapping
-    public ResponseEntity<Test> createTest(@PathVariable Integer userId, @RequestBody CreateTestRequest createTestRequest) throws UserNotFoundException {
+    public ResponseEntity<Test> createTest(@PathVariable String userId, @RequestBody CreateTestRequest createTestRequest) throws UserNotFoundException {
         if (createTestRequest.getName() == null ||
                 createTestRequest.getName().isEmpty()) {
             return ResponseEntity

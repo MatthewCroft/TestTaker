@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/test/{testId}/question")
+@RequestMapping("/api/user/{userId}/test/{testId}/question")
 public class QuestionController {
     private TestService testService;
     private QuestionService questionService;
@@ -20,7 +20,7 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Question> createQuestion(@PathVariable Integer testId, @RequestBody CreateQuestionRequest createQuestionRequest) throws Exception {
+    public ResponseEntity<Question> createQuestion(@PathVariable String userId, @PathVariable Integer testId, @RequestBody CreateQuestionRequest createQuestionRequest) throws Exception {
         if (createQuestionRequest.getQuestion().isEmpty()) {
             return ResponseEntity
                     .badRequest()
@@ -31,7 +31,7 @@ public class QuestionController {
             throw new TestNotFoundException(String.format("test with id %d not found", testId));
         }
 
-        Question question = this.questionService.createQuestion(createQuestionRequest, testId);
+        Question question = this.questionService.createQuestion(createQuestionRequest, userId, testId);
         return ResponseEntity.ok(question);
     }
 }

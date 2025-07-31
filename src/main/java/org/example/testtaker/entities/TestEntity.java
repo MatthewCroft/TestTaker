@@ -13,9 +13,9 @@ public class TestEntity {
     String name;
 
     @Column(name = "created_by")
-    Integer createdBy;
+    String createdBy;
 
-    public TestEntity(String name, Integer createdBy) {
+    public TestEntity(String name, String createdBy) {
         this.name = name;
         this.createdBy = createdBy;
     }
@@ -30,7 +30,7 @@ public class TestEntity {
         return name;
     }
 
-    public Integer getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 }

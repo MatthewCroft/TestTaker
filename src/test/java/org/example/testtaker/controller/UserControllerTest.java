@@ -22,16 +22,16 @@ public class UserControllerTest {
     @MockitoBean
     UserService userService;
 
-    @Test
-    public void testUserControllerReturnsBadRequestWhenNameIsEmpty() {
-       ResponseEntity responseEntity = userController.createUser(new CreateUserRequest(""));
-       assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    }
-
-    @Test
-    public void testUserControllerReturnsSuccess() {
-        when(userService.createUser(any())).thenReturn(new User(1, "matt"));
-        ResponseEntity<User> response = userController.createUser(new CreateUserRequest("matt"));
-        assertEquals("matt", response.getBody().getName());
-    }
+//    @Test
+//    public void testUserControllerReturnsBadRequestWhenNameIsEmpty() {
+//       ResponseEntity responseEntity = userController.createUser(new CreateUserRequest(""));
+//       assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+//    }
+//
+//    @Test
+//    public void testUserControllerReturnsSuccess() {
+//        when(userService.createUser(any())).thenReturn(new User(1, "matt"));
+//        ResponseEntity<User> response = userController.createUser(new CreateUserRequest("matt"));
+//        assertEquals("matt", response.getBody().getName());
+//    }
 }

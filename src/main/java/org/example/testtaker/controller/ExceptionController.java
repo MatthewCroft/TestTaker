@@ -3,6 +3,7 @@ package org.example.testtaker.controller;
 import org.example.testtaker.dto.ExceptionMessage;
 import org.example.testtaker.exceptions.TestNotFoundException;
 import org.example.testtaker.exceptions.UserNotFoundException;
+import org.example.testtaker.exceptions.UserNotTestCreatorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,5 +24,12 @@ public class ExceptionController {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionMessage(testNotFoundException.getMessage()));
+    }
+
+    @ExceptionHandler(value = UserNotTestCreatorException.class)
+    public ResponseEntity<ExceptionMessage> userNotTestCreatorException(UserNotTestCreatorException userNotTestCreatorException) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ExceptionMessage(userNotTestCreatorException.getMessage()));
     }
 }

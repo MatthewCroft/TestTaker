@@ -1,18 +1,12 @@
 package org.example.testtaker.model;
 
 public class User {
-    int id;
     String name;
 
     public User() {}
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
