@@ -12,6 +12,10 @@ import org.example.testtaker.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+
 @Service
 public class QuestionService {
     private QuestionRepository questionRepository;
@@ -25,19 +29,23 @@ public class QuestionService {
         this.testService = testService;
     }
 
+    private final Predicate<Test> isTestNotExisting = Objects::isNull;
+    private final Predicate<User> isUserNotExisting = Objects::isNull;
+    private final BiPredicate<Test, User> isUserTestOwner = (Test t, User u) -> u.getName().equals(t.getCreatedBy());
+
     // may need to update this to get the presigned url for the download of the media
     public Question createQuestion(CreateQuestionRequest createQuestionRequest, Integer testId, String userId) throws Exception {
         Test test = this.testService.getTest(testId);
-        if (test == null) {
+        if (isTestNotExisting.test(test)) {
             throw new TestNotFoundException(String.format("test with id %d not found", testId));
         }
 
         User user = this.userService.getUser(userId);
-        if (user == null) {
+        if (isUserNotExisting.test(user)) {
             throw new UserNotFoundException(String.format("user not found with id %s", userId));
         }
 
-        if (!test.getCreatedBy().equals(user.getName())) {
+        if (!isUserTestOwner.test(test, user)) {
             throw new UserNotTestCreatorException(String.format("user %s is not the creator of the test, cannot create questions", userId));
         }
 

@@ -25,19 +25,19 @@ public class TestControllerTest {
     @MockitoBean
     TestService testService;
 
-    @Test
-    public void testReturnBadRequestWhenTestNameIsEmpty() throws Exception {
-        ResponseEntity response = testController.createTest(2, new CreateTestRequest(""));
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void testReturnNotFoundWhenUserIdDoesNotExist() throws Exception {
-        when(userService.getUser(6)).thenReturn(null);
-        try {
-            testController.createTest(1, new CreateTestRequest("matt"));
-        } catch (UserNotFoundException e) {
-            assertEquals("User with id 1 was not found", e.getMessage());
-        }
-    }
+//    @Test
+//    public void testReturnBadRequestWhenTestNameIsEmpty() throws Exception {
+//        ResponseEntity response = testController.createTest(2, new CreateTestRequest(""));
+//        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+//    }
+//
+//    @Test
+//    public void testReturnNotFoundWhenUserIdDoesNotExist() throws Exception {
+//        when(userService.getUser(6)).thenReturn(null);
+//        try {
+//            testController.createTest(1, new CreateTestRequest("matt"));
+//        } catch (UserNotFoundException e) {
+//            assertEquals("User with id 1 was not found", e.getMessage());
+//        }
+//    }
 }

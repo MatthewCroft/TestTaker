@@ -31,7 +31,7 @@ public class QuestionController {
             throw new TestNotFoundException(String.format("test with id %d not found", testId));
         }
 
-        Question question = this.questionService.createQuestion(createQuestionRequest, userId, testId);
+        Question question = this.questionService.createQuestion(createQuestionRequest, testId, userId);
         return ResponseEntity.ok(question);
     }
 }

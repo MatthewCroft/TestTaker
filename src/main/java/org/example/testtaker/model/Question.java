@@ -30,4 +30,17 @@ public class Question {
     public String getMedia() {
         return media;
     }
+
+    @Override
+    public boolean equals(Object t) {
+        if (t == null) return false;
+        if (t == this) {
+            return true;
+        }
+
+        Question q = (Question) t;
+        return q.getTestId().equals(this.getTestId()) &
+                q.getQuestion().equals(this.getQuestion()) &
+                q.getMedia().equals(this.getMedia());
+    }
 }
