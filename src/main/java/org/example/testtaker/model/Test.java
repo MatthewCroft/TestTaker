@@ -23,4 +23,13 @@ public class Test {
     public String getCreatedBy() {
         return createdBy;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        Test test = (Test) o;
+        return this.getName().equals(test.getName()) &
+                this.getCreatedBy().equals(test.getCreatedBy());
+    }
 }

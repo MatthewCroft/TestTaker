@@ -7,6 +7,8 @@ import org.example.testtaker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Predicate;
+
 @Service
 public class UserService {
 
@@ -17,7 +19,11 @@ public class UserService {
        this.userRepository = userRepository;
     }
 
+
     public User createUser(CreateUserRequest user) {
+        Predicate<String> isUserExisting = (String userId) -> {
+            return getUser(userId) != null;
+        };
         ExamUser examUser = new ExamUser(user.getName());
         ExamUser createdUser = userRepository.save(examUser);
         return new User(createdUser.getName());
